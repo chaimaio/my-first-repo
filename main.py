@@ -1,16 +1,38 @@
-# 這是一個範例 Python 腳本。
+from datetime import date
 
-# 按 Shift+F10 執行或將其取代為您的程式碼。
-# 按 雙擊 Shift 在所有地方搜尋類別、檔案、工具視窗、動作和設定。
+import streamlit as st
+
+from pandas import DataFrame
+
+from packages import fetch
+
+st.write(st.session_state)
+
+data_frequency_options: dict = {
+    "1d": "每天",
+    "1wk": "每週",
+    "1mo": "每月"
+}
 
 
-def print_hi(name):
-    # 在下面的程式碼行中使用中斷點來偵錯腳本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切換中斷點。
+def format_func(option) -> None:
+    return data_frequency_options[option]
 
 
-# 按裝訂區域中的綠色按鈕以執行腳本。
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def form_callback() -> None:
+    pass
 
-# 存取 https://www.jetbrains.com/help/pycharm/ 獲取 PyCharm 幫助
+
+with st.form(key="my_form"):
+    ticker_input: str = st.text_input("股票代號", key="ticker")
+    is_taiwan: bool = st.toggle("台灣地區股票", key="is_taiwan")
+
+    start_date_input: date = st.date_input("開始日期", key="start_date")
+    end_date_input: date = st.date_input("結束日期", key="end_date")
+
+    data_frequency_input: str = st.selectbox("資料頻率",
+                                             options=list(data_frequency_options.keys()),
+                                             format_func=format_func,
+                                             key="data_frequency")
+
+    submit_button: bool = st.form_submit_button(label="確定", on_click=form_callback)
