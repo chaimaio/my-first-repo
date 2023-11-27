@@ -20,7 +20,21 @@ def format_func(option) -> None:
 
 
 def form_callback() -> None:
-    pass
+        if st.session_state.is_taiwan:
+        ticker: str = st.session_state.ticker + ".TW"
+    else:
+        ticker: str = st.session_state.ticker
+
+    fetch_data: DataFrame = fetch(
+        ticker,
+        st.session_state.start_date,
+        st.session_state.end_date,
+        data_frequency_input
+    )
+
+    st.dataframe(fetch_data, use_container_width=True)
+
+    st.line_chart(fetch_data, y="Close", use_container_width=True)
 
 
 with st.form(key="my_form"):
