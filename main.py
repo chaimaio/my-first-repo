@@ -20,7 +20,7 @@ def format_func(option) -> None:
 
 
 def form_callback() -> None:
-        if st.session_state.is_taiwan:
+    if st.session_state.is_taiwan:
         ticker: str = st.session_state.ticker + ".TW"
     else:
         ticker: str = st.session_state.ticker
